@@ -13,7 +13,7 @@ class AccountRetrieveAPIView(RetrieveAPIView):
     lookup_field = "id"
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
-    permission_classes = (IsAuthenticated, IsOwn)
+    permission_classes = (IsAuthenticated, IsOwn) 
 
 class RegisterAPIView(CreateAPIView):
     queryset = Account.objects.all()
