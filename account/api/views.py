@@ -10,7 +10,7 @@ class AccountListAPIView(ListAPIView):
     serializer_class = AccountSerializer
 
 class AccountRetrieveAPIView(RetrieveAPIView):
-    lookup_field = "id"
+    lookup_field = "email"
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
     permission_classes = (IsAuthenticated, IsOwn) 
