@@ -6,7 +6,7 @@ from account.models import Account
 class AccountSerializer(ModelSerializer):
     class Meta:
         model = Account
-        fields = ("id", "first_name", "last_name", "email", "category")
+        fields = ("id", "first_name", "last_name", "email", "category", "is_staff", "date_joined", "last_login")
 
 class RegisterSerializer(ModelSerializer):
     password = serializers.CharField(write_only=True)
