@@ -83,3 +83,20 @@ class Account(AbstractUser):
     objects = UserManager()
 
 
+class Course(models.Model):
+    accounts = models.ManyToManyField(Account, related_name="courses")
+    name = models.CharField(max_length=256)
+
+    def __str__(self):
+        return self.name
+
+class Unit(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="units")
+    name = models.CharField(max_length=256)
+    about = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+
