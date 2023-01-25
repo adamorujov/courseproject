@@ -3,6 +3,8 @@ from rest_framework.generics import (ListAPIView,
 CreateAPIView, 
 RetrieveAPIView,
 UpdateAPIView,
+RetrieveUpdateAPIView,
+DestroyAPIView,
 get_object_or_404
 )
 
@@ -10,11 +12,14 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from account.api.serializers import (AccountSerializer, 
 RegisterSerializer, 
 CourseListSerializer, 
-CourseCreateUpdateSerializer,
+CourseCreateUpdateDestroySerializer,
+UnitDestroySerializer,
 UnitCreateUpdateSerializer
 )
 
-from account.api.permissions import IsOwner
+from rest_framework.response import Response
+
+from account.api.permissions import IsOwner, IsTeacher
 from account.models import Account, Course, Unit
 
 class AccountListAPIView(ListAPIView):
@@ -44,20 +49,43 @@ class AccountCoursesListAPIView(ListAPIView):
 
 class CourseCreateAPIView(CreateAPIView):
     queryset = Course.objects.all()
-    serializer_class = CourseCreateUpdateSerializer
+    serializer_class = CourseCreateUpdateDestroySerializer
     permission_classes = (IsAdminUser,)
 
-class CourseUpdateAPIView(UpdateAPIView):
+class CourseUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = "pk"
     queryset = Course.objects.all()
-    serializer_class = CourseCreateUpdateSerializer
+    serializer_class = CourseCreateUpdateDestroySerializer
     permission_classes = (IsAdminUser,)
+
+    def put(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+class CourseDestroyAPIView(DestroyAPIView):
+    lookup_field = "pk"
+    queryset = Course.objects.all()
+    serializer_class = CourseCreateUpdateDestroySerializer
+    permission_classes = (IsAdminUser,)
+
 
 class UnitCreateAPIView(CreateAPIView):
     queryset = Unit.objects.all()
     serializer_class = UnitCreateUpdateSerializer
 
-class UnitUpdateAPIView(UpdateAPIView):
+class UnitUpdateAPIView(RetrieveUpdateAPIView):
     lookup_field = "pk"
     queryset = Unit.objects.all()
     serializer_class = UnitCreateUpdateSerializer
+
+    def put(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+class UnitDestroyAPIView(DestroyAPIView):
+    lookup_field = "pk"
+    queryset = Unit.objects.all()
+    serializer_class = UnitDestroySerializer
+    permission_classes = (IsTeacher, )
+
+# class UnitDestroyAPIView(DestroyAPIView):
+#     lookup_field = "pk"
+#     queryset = Unit.objects.all()

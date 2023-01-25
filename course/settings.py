@@ -28,10 +28,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-CORS_ALLOWED_ORIGINS = [
-    "https://127.0.0.1:3000", #REACT app run on port 3000
-    "http://localhost:3000"
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "https://127.0.0.1:3000", #REACT app run on port 3000
+#     "http://localhost:3000"
+# ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 
 # Application definition
@@ -144,6 +146,6 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=1440),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
 }

@@ -47,17 +47,30 @@ class UnitCreateUpdateSerializer(serializers.ModelSerializer):
 
         return attrs
 
+class UnitDestroySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Unit
+        fields = "__all__"
+
+    def validate(self, attrs):
+        user = self.context["request"].user
+        if not user in attrs['course'].accounts.all() or not user.category == "T":
+            raise ValidationError("You cannot delete a unit for this course.")
+
+        return attrs
+    
+
 class CourseListSerializer(serializers.ModelSerializer):
     accounts = serializers.SerializerMethodField()
     units = UnitSerializer(many=True)
     class Meta:
         model = Course
-        fields = ('accounts', 'name', 'units')
+        fields = ('id', 'accounts', 'name', 'units')
 
     def get_accounts(self, obj):
         return AccountSerializer(obj.accounts.all(), many=True).data
 
-class CourseCreateUpdateSerializer(serializers.ModelSerializer):
+class CourseCreateUpdateDestroySerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = "__all__"
