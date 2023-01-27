@@ -82,6 +82,10 @@ class Account(AbstractUser):
 
     objects = UserManager()
 
+    def __str__(self):
+        return self.email
+    
+
 
 class Course(models.Model):
     accounts = models.ManyToManyField(Account, related_name="courses")
@@ -99,4 +103,6 @@ class Unit(models.Model):
         return self.name
 
 
-
+class HomeWork(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="homeworks")
+    

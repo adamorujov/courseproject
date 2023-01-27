@@ -61,19 +61,18 @@ class UnitDestroySerializer(serializers.ModelSerializer):
     
 
 class CourseListSerializer(serializers.ModelSerializer):
-    accounts = serializers.SerializerMethodField()
+    accounts = AccountSerializer(many=True)
     units = UnitSerializer(many=True)
     class Meta:
         model = Course
         fields = ('id', 'accounts', 'name', 'units')
 
-    def get_accounts(self, obj):
-        return AccountSerializer(obj.accounts.all(), many=True).data
 
 class CourseCreateUpdateDestroySerializer(serializers.ModelSerializer):
+    accounts = serializers.SlugRelatedField(queryset=Account.objects.all(), slug_field="email", many=True)
     class Meta:
         model = Course
-        fields = "__all__"
+        fields = ('name', 'accounts')
 
 
 

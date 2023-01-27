@@ -85,7 +85,3 @@ class UnitDestroyAPIView(DestroyAPIView):
     queryset = Unit.objects.all()
     serializer_class = UnitDestroySerializer
     permission_classes = (IsTeacher, )
-
-# class UnitDestroyAPIView(DestroyAPIView):
-#     lookup_field = "pk"
-#     queryset = Unit.objects.all()
