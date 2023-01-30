@@ -1,6 +1,18 @@
 from django.contrib import admin
-from account.models import Account, Course, Unit
+from account.models import (
+    Account, Course, Unit,
+    HomeWork, Listening, ListeningQuestion, ListeningQuestionAnswer, ListeningResult,
+    Reading, ReadingAnswer, ReadingResult
+)
 
 admin.site.register(Account)
 admin.site.register(Course)
 admin.site.register(Unit)
+admin.site.register(HomeWork)
+admin.site.register(Listening)
+admin.site.register(ListeningQuestion)
+admin.site.register(ListeningQuestionAnswer)
+admin.site.register(ListeningResult)
+admin.site.register(Reading)
+admin.site.register(ReadingAnswer)
+admin.site.register(ReadingResult)

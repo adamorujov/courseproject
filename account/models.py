@@ -3,8 +3,6 @@ from django.contrib import auth
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.utils.translation import gettext_lazy as _
 
-# Create your models here.
-
 ACCOUNT_CHOICES = [
     ('T', 'teacher'),
     ('S', 'student'),
@@ -84,8 +82,6 @@ class Account(AbstractUser):
 
     def __str__(self):
         return self.email
-    
-
 
 class Course(models.Model):
     accounts = models.ManyToManyField(Account, related_name="courses")
@@ -105,4 +101,77 @@ class Unit(models.Model):
 
 class HomeWork(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="homeworks")
-    
+    name = models.CharField(max_length=256)
+
+    def __str__(self):
+        return self.name
+
+class Listening(models.Model):
+    homework = models.ForeignKey(HomeWork, on_delete=models.CASCADE, related_name="listenings")
+    name = models.CharField(max_length=256)
+    audio = models.FileField(upload_to="audio/")
+    max_result = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name
+
+class ListeningQuestion(models.Model):
+    listening = models.ForeignKey(Listening, on_delete=models.CASCADE, related_name="listeningquestions")
+    question = models.TextField()
+    value = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.question
+
+class ListeningQuestionAnswer(models.Model):
+    question = models.ForeignKey(ListeningQuestion, on_delete=models.CASCADE, related_name="listeningquestionanswers")
+    answer = models.CharField(max_length=528)
+    is_true = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.answer
+
+class ListeningResult(models.Model):
+    account = models.OneToOneField(Account, on_delete=models.CASCADE, related_name="accountlisteningresult")
+    listening = models.ForeignKey(Listening, on_delete=models.CASCADE, related_name="listeningresults")
+    result = models.IntegerField(default=0)
+    date = models.DateField()
+
+    def __str__(self):
+        return self.account.email
+
+
+# class ListeningQuestionAccountAnswer(models.Model):
+#     account = models.OneToOneField(Account, on_delete=models.CASCADE, related_name="accountlisteningquestionanswer")
+#     answer = models.ForeignKey(ListeningQuestionAnswer, on_delete=models.CASCADE, related_name="versions")
+#     version = models.CharField(max_length=528)
+
+#     def __str__(self):
+#         return self.version
+
+
+class Reading(models.Model):
+    homework = models.ForeignKey(HomeWork, on_delete=models.CASCADE, related_name="readings")
+    name = models.CharField(max_length=256)
+    text = models.TextField()
+    max_result= models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name
+
+class ReadingAnswer(models.Model):
+    reading = models.ForeignKey (Reading, on_delete=models.CASCADE, related_name="readinganswers")
+    answer = models.CharField(max_length=256)
+
+    def __str__(self):
+        return self.answer
+
+
+class ReadingResult(models.Model):
+    account = models.OneToOneField(Account, on_delete=models.CASCADE, related_name="accountreadingresult")
+    reading = models.ForeignKey(Reading, on_delete=models.CASCADE, related_name="readingresults")
+    result = models.IntegerField(default=0)
+    date = models.DateField()
+
+    def __str__(self):
+        return self.account.email

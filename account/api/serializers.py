@@ -1,7 +1,11 @@
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
-from account.models import Account, Course, Unit
+from account.models import (
+    Account, Course, Unit,
+    HomeWork, Listening, ListeningQuestion, ListeningQuestionAnswer, ListeningResult,
+    Reading, ReadingAnswer, ReadingResult,
+    )
 
 class AccountSerializer(serializers.ModelSerializer):
     class Meta:
@@ -74,5 +78,39 @@ class CourseCreateUpdateDestroySerializer(serializers.ModelSerializer):
         model = Course
         fields = ('name', 'accounts')
 
+class ListeningQuestionAnswerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ListeningQuestionAnswer
+        fields = "__all__"
 
+class ListeningQuestionSerializer(serializers.ModelSerializer):
+    listeningquestionanswers = ListeningQuestionAnswerSerializer(many=True)
+    class Meta:
+        model = ListeningQuestion
+        fields = ("listening", "question", "value", "listeningquestionanswers")
+
+
+class ListeningSerializer(serializers.ModelSerializer):
+    listeningquestions = ListeningQuestionSerializer(many=True)
+    class Meta:
+        model = Listening
+        fields = ("homework", "name", "audio", "max_result", "listeningquestions")
+
+class ReadingAnswerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReadingAnswer
+        fields = "__all__"
+
+class ReadingSerializer(serializers.ModelSerializer):
+    readinganswers = ReadingAnswerSerializer(many=True)
+    class Meta:
+        model = Reading
+        fields = ("homework", "name", "text", "max_result", "readinganswers")
+
+class HomeWorkSerializer(serializers.ModelSerializer):
+    listenings = ListeningSerializer(many=True)
+    readings = ReadingSerializer(many=True)
+    class Meta:
+        model = HomeWork
+        fields = ("course", "name", "listenings", "readings")
 

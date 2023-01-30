@@ -13,4 +13,7 @@ urlpatterns = [
     path('unit-create/', views.UnitCreateAPIView.as_view(), name="unit-create"),
     path('unit-update/<int:pk>/', views.UnitUpdateAPIView.as_view(), name="unit-update"),
     path('unit-delete/<int:pk>/', views.UnitDestroyAPIView.as_view(), name="unit-delete"),
+    path('homeworks/', views.HomeWorkListAPIView.as_view(), name="homeworks"),
+    path('myhomeworks/', views.AccountHomeWorkListAPIView.as_view(), name="myhomeworks"),
+    path('listenings/', views.ListeningListAPIView.as_view(), name="listenings"),
 ]

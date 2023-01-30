@@ -14,13 +14,18 @@ RegisterSerializer,
 CourseListSerializer, 
 CourseCreateUpdateDestroySerializer,
 UnitDestroySerializer,
-UnitCreateUpdateSerializer
+UnitCreateUpdateSerializer,
+HomeWorkSerializer, 
+ListeningSerializer
 )
 
 from rest_framework.response import Response
 
 from account.api.permissions import IsOwner, IsTeacher
-from account.models import Account, Course, Unit
+from account.models import (
+    Account, Course, Unit,
+    HomeWork, Listening
+    )
 
 class AccountListAPIView(ListAPIView):
     queryset = Account.objects.all()
@@ -85,3 +90,20 @@ class UnitDestroyAPIView(DestroyAPIView):
     queryset = Unit.objects.all()
     serializer_class = UnitDestroySerializer
     permission_classes = (IsTeacher, )
+
+
+class HomeWorkListAPIView(ListAPIView):
+    queryset = HomeWork.objects.all()
+    serializer_class = HomeWorkSerializer
+
+class AccountHomeWorkListAPIView(ListAPIView):
+    def get_queryset(self):
+        return HomeWork.objects.filter(course__accounts=self.request.user)
+    serializer_class = HomeWorkSerializer
+    permission_classes = (IsAuthenticated,)
+
+class ListeningListAPIView(ListAPIView):
+    queryset = Listening.objects.all()
+    serializer_class = ListeningSerializer
+
+
