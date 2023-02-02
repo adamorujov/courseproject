@@ -16,4 +16,8 @@ urlpatterns = [
     path('homeworks/', views.HomeWorkListAPIView.as_view(), name="homeworks"),
     path('myhomeworks/', views.AccountHomeWorkListAPIView.as_view(), name="myhomeworks"),
     path('listenings/', views.ListeningListAPIView.as_view(), name="listenings"),
+    path('listeningresults/', views.ListeningResultsListAPIView.as_view(), name="listeningresults"),
+    path('readingresults/', views.ReadingResultsListAPIView.as_view(), name="readingresults"),
+    path('mylisteningresults/', views.AccountListeningResultsListAPIView.as_view(), name="mylisteningresults"),
+    path('myreadingresults/', views.AccountReadingResultsListAPIView.as_view(), name="myreadingresults"),
 ]

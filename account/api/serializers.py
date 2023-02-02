@@ -92,9 +92,23 @@ class ListeningQuestionSerializer(serializers.ModelSerializer):
 
 class ListeningSerializer(serializers.ModelSerializer):
     listeningquestions = ListeningQuestionSerializer(many=True)
+    homework = serializers.SlugRelatedField(queryset=HomeWork.objects.all(), slug_field="name")
     class Meta:
         model = Listening
         fields = ("homework", "name", "audio", "max_result", "listeningquestions")
+
+class ListeningShortSerializer(serializers.ModelSerializer):
+    homework = serializers.SlugRelatedField(queryset=HomeWork.objects.all(), slug_field="name")
+    class Meta:
+        model = Listening
+        fields = ("homework", "name", "max_result")
+
+class ListeningResultSerializer(serializers.ModelSerializer):
+    account = serializers.SlugRelatedField(queryset=Account.objects.all(), slug_field="email")
+    listening = ListeningShortSerializer()
+    class Meta:
+        model = ListeningResult
+        fields = ("id", "result", "date", "account", "listening")
 
 class ReadingAnswerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -107,10 +121,23 @@ class ReadingSerializer(serializers.ModelSerializer):
         model = Reading
         fields = ("homework", "name", "text", "max_result", "readinganswers")
 
+class ReadingShortSerializer(serializers.ModelSerializer):
+    homework = serializers.SlugRelatedField(queryset=HomeWork.objects.all(), slug_field="name")
+    class Meta:
+        model = Reading
+        fields = ("homework", "name", "max_result")
+
+class ReadingResultSerializer(serializers.ModelSerializer):
+    account = serializers.SlugRelatedField(queryset=Account.objects.all(), slug_field="email")
+    reading = ReadingShortSerializer()
+    class Meta:
+        model = ReadingResult
+        fields = ("id", "result", "date", "account", "reading")
+
 class HomeWorkSerializer(serializers.ModelSerializer):
+    course = serializers.SlugRelatedField(queryset=Course.objects.all(), slug_field="name")
     listenings = ListeningSerializer(many=True)
     readings = ReadingSerializer(many=True)
     class Meta:
         model = HomeWork
         fields = ("course", "name", "listenings", "readings")
-

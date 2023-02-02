@@ -16,7 +16,9 @@ CourseCreateUpdateDestroySerializer,
 UnitDestroySerializer,
 UnitCreateUpdateSerializer,
 HomeWorkSerializer, 
-ListeningSerializer
+ListeningSerializer,
+ListeningResultSerializer,
+ReadingResultSerializer
 )
 
 from rest_framework.response import Response
@@ -24,7 +26,7 @@ from rest_framework.response import Response
 from account.api.permissions import IsOwner, IsTeacher
 from account.models import (
     Account, Course, Unit,
-    HomeWork, Listening
+    HomeWork, Listening, ListeningResult, ReadingResult
     )
 
 class AccountListAPIView(ListAPIView):
@@ -106,4 +108,27 @@ class ListeningListAPIView(ListAPIView):
     queryset = Listening.objects.all()
     serializer_class = ListeningSerializer
 
+class ListeningResultsListAPIView(ListAPIView):
+    queryset = ListeningResult.objects.all()
+    serializer_class = ListeningResultSerializer
+    permission_classes = (IsAdminUser,)
 
+class AccountListeningResultsListAPIView(ListAPIView):
+    def get_queryset(self):
+        return ListeningResult.objects.filter(account=self.request.user)
+
+    serializer_class = ListeningResultSerializer
+    permission_classes = (IsAuthenticated,)
+
+
+class ReadingResultsListAPIView(ListAPIView):
+    queryset = ReadingResult.objects.all()
+    serializer_class = ReadingResultSerializer
+    permission_classes = (IsAdminUser,)
+
+class AccountReadingResultsListAPIView(ListAPIView):
+    def get_queryset(self):
+        return ReadingResult.objects.filter(account=self.request.user)
+
+    serializer_class = ReadingResultSerializer
+    permission_classes = (IsAuthenticated,)
