@@ -4,7 +4,7 @@ from django.contrib.auth.password_validation import validate_password
 from account.models import (
     Account, Course, Unit,
     HomeWork, Listening, ListeningQuestion, ListeningQuestionAnswer, ListeningResult,
-    Reading, ReadingAnswer, ReadingResult,
+    Reading, ReadingAnswer, ReadingResult, HomeWorkResult
     )
 
 class AccountSerializer(serializers.ModelSerializer):
@@ -97,18 +97,26 @@ class ListeningSerializer(serializers.ModelSerializer):
         model = Listening
         fields = ("homework", "name", "audio", "max_result", "listeningquestions")
 
+class HomeWorkShortSerializer(serializers.ModelSerializer):
+    course = serializers.SlugRelatedField(queryset=Course.objects.all(), slug_field="name")
+    class Meta:
+        model = HomeWork
+        fields = ("course", "name")
+
 class ListeningShortSerializer(serializers.ModelSerializer):
-    homework = serializers.SlugRelatedField(queryset=HomeWork.objects.all(), slug_field="name")
+    # homework = serializers.SlugRelatedField(queryset=HomeWork.objects.all(), slug_field="name")
+    homework = HomeWorkShortSerializer()
     class Meta:
         model = Listening
         fields = ("homework", "name", "max_result")
 
 class ListeningResultSerializer(serializers.ModelSerializer):
-    account = serializers.SlugRelatedField(queryset=Account.objects.all(), slug_field="email")
+    # account = serializers.SlugRelatedField(queryset=Account.objects.all(), slug_field="email")
+    homeworkresult = serializers.SlugRelatedField(queryset=HomeWorkResult.objects.all(), slug_field="id")
     listening = ListeningShortSerializer()
     class Meta:
         model = ListeningResult
-        fields = ("id", "result", "date", "account", "listening")
+        fields = ("id", "homeworkresult", "result", "date", "listening")
 
 class ReadingAnswerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -122,17 +130,29 @@ class ReadingSerializer(serializers.ModelSerializer):
         fields = ("homework", "name", "text", "max_result", "readinganswers")
 
 class ReadingShortSerializer(serializers.ModelSerializer):
-    homework = serializers.SlugRelatedField(queryset=HomeWork.objects.all(), slug_field="name")
+    # homework = serializers.SlugRelatedField(queryset=HomeWork.objects.all(), slug_field="name")
+    homework = HomeWorkShortSerializer()
     class Meta:
         model = Reading
         fields = ("homework", "name", "max_result")
 
 class ReadingResultSerializer(serializers.ModelSerializer):
-    account = serializers.SlugRelatedField(queryset=Account.objects.all(), slug_field="email")
+    # account = serializers.SlugRelatedField(queryset=Account.objects.all(), slug_field="email")
+    homeworkresult = serializers.SlugRelatedField(queryset=HomeWorkResult.objects.all(), slug_field="id")
     reading = ReadingShortSerializer()
     class Meta:
         model = ReadingResult
-        fields = ("id", "result", "date", "account", "reading")
+        fields = ("id", "homeworkresult", "result", "date", "reading")
+
+class HomeWorkResultSerializer(serializers.ModelSerializer):
+    account = serializers.SlugRelatedField(queryset=Account.objects.all(), slug_field="email")
+    homeworklisteningresults = ListeningResultSerializer(many=True)
+    homeworkreadingresults = ReadingResultSerializer(many=True)
+
+    class Meta:
+        model = HomeWorkResult
+        fields = ("id", "account", "homeworklisteningresults", "homeworkreadingresults")
+
 
 class HomeWorkSerializer(serializers.ModelSerializer):
     course = serializers.SlugRelatedField(queryset=Course.objects.all(), slug_field="name")

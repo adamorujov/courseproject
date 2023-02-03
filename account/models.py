@@ -105,6 +105,11 @@ class HomeWork(models.Model):
 
     def __str__(self):
         return self.name
+    
+class HomeWorkResult(models.Model):
+    account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name="accounthomeworkresults")
+    def __str__(self):
+        return self.account.email
 
 class Listening(models.Model):
     homework = models.ForeignKey(HomeWork, on_delete=models.CASCADE, related_name="listenings")
@@ -132,13 +137,14 @@ class ListeningQuestionAnswer(models.Model):
         return self.answer
 
 class ListeningResult(models.Model):
-    account = models.OneToOneField(Account, on_delete=models.CASCADE, related_name="accountlisteningresult")
+    homeworkresult = models.ForeignKey(HomeWorkResult, on_delete=models.CASCADE, related_name="homeworklisteningresults")
+    # account = models.OneToOneField(Account, on_delete=models.CASCADE, related_name="accountlisteningresult")
     listening = models.ForeignKey(Listening, on_delete=models.CASCADE, related_name="listeningresults")
     result = models.IntegerField(default=0)
     date = models.DateField()
 
     def __str__(self):
-        return self.account.email
+        return self.homeworkresult.account.email
 
 
 # class ListeningQuestionAccountAnswer(models.Model):
@@ -168,10 +174,11 @@ class ReadingAnswer(models.Model):
 
 
 class ReadingResult(models.Model):
-    account = models.OneToOneField(Account, on_delete=models.CASCADE, related_name="accountreadingresult")
+    homeworkresult = models.ForeignKey(HomeWorkResult, on_delete=models.CASCADE, related_name="homeworkreadingresults")
     reading = models.ForeignKey(Reading, on_delete=models.CASCADE, related_name="readingresults")
     result = models.IntegerField(default=0)
     date = models.DateField()
 
     def __str__(self):
-        return self.account.email
+        return self.homeworkresult.account.email
+    

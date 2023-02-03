@@ -18,7 +18,8 @@ UnitCreateUpdateSerializer,
 HomeWorkSerializer, 
 ListeningSerializer,
 ListeningResultSerializer,
-ReadingResultSerializer
+ReadingResultSerializer,
+HomeWorkResultSerializer,
 )
 
 from rest_framework.response import Response
@@ -26,7 +27,7 @@ from rest_framework.response import Response
 from account.api.permissions import IsOwner, IsTeacher
 from account.models import (
     Account, Course, Unit,
-    HomeWork, Listening, ListeningResult, ReadingResult
+    HomeWork, Listening, ListeningResult, ReadingResult, HomeWorkResult
     )
 
 class AccountListAPIView(ListAPIView):
@@ -113,18 +114,18 @@ class ListeningResultsListAPIView(ListAPIView):
     serializer_class = ListeningResultSerializer
     permission_classes = (IsAdminUser,)
 
-class AccountListeningResultsListAPIView(ListAPIView):
-    def get_queryset(self):
-        return ListeningResult.objects.filter(account=self.request.user)
+# class AccountListeningResultsListAPIView(ListAPIView):
+#     def get_queryset(self):
+#         return ListeningResult.objects.filter(account=self.request.user)
 
-    serializer_class = ListeningResultSerializer
-    permission_classes = (IsAuthenticated,)
+#     serializer_class = ListeningResultSerializer
+#     permission_classes = (IsAuthenticated,)
 
 
-class ReadingResultsListAPIView(ListAPIView):
-    queryset = ReadingResult.objects.all()
-    serializer_class = ReadingResultSerializer
-    permission_classes = (IsAdminUser,)
+# class ReadingResultsListAPIView(ListAPIView):
+#     queryset = ReadingResult.objects.all()
+#     serializer_class = ReadingResultSerializer
+#     permission_classes = (IsAdminUser,)
 
 class AccountReadingResultsListAPIView(ListAPIView):
     def get_queryset(self):
@@ -132,3 +133,12 @@ class AccountReadingResultsListAPIView(ListAPIView):
 
     serializer_class = ReadingResultSerializer
     permission_classes = (IsAuthenticated,)
+
+class AccountHomeWorkResultsListAPIView(ListAPIView):
+    def get_queryset(self):
+        return HomeWorkResult.objects.filter(account=self.request.user)
+
+    serializer_class = HomeWorkResultSerializer
+    permission_classes = (IsAuthenticated,)
+
+    """ text HTML hypertext language has"""
