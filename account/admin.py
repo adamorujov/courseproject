@@ -2,7 +2,7 @@ from django.contrib import admin
 from account.models import (
     Account, Course, Unit,
     HomeWork, Listening, ListeningQuestion, ListeningQuestionAnswer, ListeningResult,
-    Reading, ReadingAnswer, ReadingResult, HomeWorkResult
+    Reading, ReadingAnswer, ReadingResult,
 )
 
 admin.site.register(Account)
@@ -16,4 +16,3 @@ admin.site.register(ListeningResult)
 admin.site.register(Reading)
 admin.site.register(ReadingAnswer)
 admin.site.register(ReadingResult)
-admin.site.register(HomeWorkResult)
