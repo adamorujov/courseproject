@@ -21,4 +21,10 @@ urlpatterns = [
     path('mylisteningresults/', views.AccountListeningResultsListAPIView.as_view(), name="mylisteningresults"),
     path('myreadingresults/', views.AccountReadingResultsListAPIView.as_view(), name="myreadingresults"),
     # path('myhomeworkresults/', views.AccountHomeWorkResultsListAPIView.as_view(), name="myhomeworkresults"),
+    path('homework-create/', views.HomeWorkCreateAPIView.as_view(), name="homework-create"),
+    path('listening-create/', views.ListeningCreateAPIView.as_view(), name="listening-create"),
+    path('listeningquestion-create/', views.ListeningQuestionCreateAPIView.as_view(), name="listeningquestion-create"),
+    path('listeningquestionanswer-create/', views.ListeningQuestionAnswerCreateAPIView.as_view(), name="listeningquestionanswer-create"),
+    path('reading-create/', views.ReadingCreateAPIView.as_view(), name="reading-create"),
+    path('readingquestionanswer-create/', views.ReadingAnswerCreateAPIView.as_view(), name="readanswer-create"),
 ]

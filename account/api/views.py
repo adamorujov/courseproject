@@ -1,32 +1,25 @@
 from rest_framework.views import APIView
-from rest_framework.generics import (ListAPIView, 
-CreateAPIView, 
-RetrieveAPIView,
-UpdateAPIView,
-RetrieveUpdateAPIView,
-DestroyAPIView,
+from rest_framework.generics import (ListAPIView, CreateAPIView, RetrieveAPIView, UpdateAPIView,
+RetrieveUpdateAPIView, DestroyAPIView,
 get_object_or_404
 )
 
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from account.api.serializers import (AccountSerializer, 
-RegisterSerializer, 
-CourseListSerializer, 
-CourseCreateUpdateDestroySerializer,
-UnitDestroySerializer,
-UnitCreateUpdateSerializer,
-HomeWorkSerializer, 
-ListeningSerializer,
-ListeningResultSerializer,
-ReadingResultSerializer,
+from account.api.serializers import (AccountSerializer, RegisterSerializer, 
+CourseListSerializer, CourseCreateUpdateDestroySerializer,
+UnitDestroySerializer, UnitCreateUpdateSerializer,
+HomeWorkSerializer, ListeningSerializer, ListeningResultSerializer, ReadingResultSerializer,
+HomeWorkCreateSerializer, ListeningCreateSerializer, ListeningQuestionCreateSerializer, 
+ListeningQuestionAnswerCreateSerializer, ReadingCreateSerializer, ReadingAnswerCreateSerializer,
 )
 
 from rest_framework.response import Response
 
-from account.api.permissions import IsOwner, IsTeacher
+from account.api.permissions import IsOwner, IsTeacher, IsTeacherUser
 from account.models import (
     Account, Course, Unit,
-    HomeWork, Listening, ListeningResult, ReadingResult,
+    HomeWork, Listening, ListeningResult, ListeningQuestion, ListeningQuestionAnswer,
+    Reading, ReadingAnswer, ReadingResult,
     )
 
 class AccountListAPIView(ListAPIView):
@@ -140,4 +133,32 @@ class AccountReadingResultsListAPIView(ListAPIView):
 #     serializer_class = HomeWorkResultSerializer
 #     permission_classes = (IsAuthenticated,)
 
-#     """ text HTML hypertext language has"""
+class HomeWorkCreateAPIView(CreateAPIView):
+    queryset = HomeWork.objects.all()
+    serializer_class = HomeWorkCreateSerializer
+    permission_classes = (IsTeacherUser,)
+
+class ListeningCreateAPIView(CreateAPIView):
+    queryset = Listening.objects.all()
+    serializer_class = ListeningCreateSerializer
+    permission_classes = (IsTeacherUser,)
+
+class ListeningQuestionCreateAPIView(CreateAPIView):
+    queryset = ListeningQuestion.objects.all()
+    serializer_class = ListeningQuestionCreateSerializer
+    permission_classes = (IsTeacherUser,)
+
+class ListeningQuestionAnswerCreateAPIView(CreateAPIView):
+    queryset = ListeningQuestionAnswer.objects.all()
+    serializer_class = ListeningQuestionAnswerCreateSerializer
+    permission_classes = (IsTeacherUser,)
+
+class ReadingCreateAPIView(CreateAPIView):
+    queryset = Reading.objects.all()
+    serializer_class = ReadingCreateSerializer
+    permission_classes = (IsTeacherUser,)
+
+class ReadingAnswerCreateAPIView(CreateAPIView):
+    queryset = ReadingAnswer.objects.all()
+    serializer_class = ReadingAnswerCreateSerializer
+    permission_classes = (IsTeacherUser,)

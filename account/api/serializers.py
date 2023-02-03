@@ -34,6 +34,8 @@ class RegisterSerializer(serializers.ModelSerializer):
         account.save()
         return account
 
+### Course and Unit Serializers start ###
+
 class UnitSerializer(serializers.ModelSerializer):
     class Meta:
         model = Unit
@@ -78,6 +80,10 @@ class CourseCreateUpdateDestroySerializer(serializers.ModelSerializer):
         model = Course
         fields = ('name', 'accounts')
 
+### Course and Unit Serializers end ###
+
+### HomeWork Listening Reading List Serializers start ###
+
 class ListeningQuestionAnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = ListeningQuestionAnswer
@@ -87,7 +93,7 @@ class ListeningQuestionSerializer(serializers.ModelSerializer):
     listeningquestionanswers = ListeningQuestionAnswerSerializer(many=True)
     class Meta:
         model = ListeningQuestion
-        fields = ("listening", "question", "value", "listeningquestionanswers")
+        fields = ("id", "listening", "question", "value", "listeningquestionanswers")
 
 
 class ListeningSerializer(serializers.ModelSerializer):
@@ -95,7 +101,7 @@ class ListeningSerializer(serializers.ModelSerializer):
     homework = serializers.SlugRelatedField(queryset=HomeWork.objects.all(), slug_field="name")
     class Meta:
         model = Listening
-        fields = ("homework", "name", "audio", "max_result", "listeningquestions")
+        fields = ("id", "homework", "name", "audio", "max_result", "listeningquestions")
 
 # class HomeWorkShortSerializer(serializers.ModelSerializer):
 #     course = serializers.SlugRelatedField(queryset=Course.objects.all(), slug_field="name")
@@ -107,7 +113,7 @@ class ListeningShortSerializer(serializers.ModelSerializer):
     homework = serializers.SlugRelatedField(queryset=HomeWork.objects.all(), slug_field="name")
     class Meta:
         model = Listening
-        fields = ("homework", "name", "max_result")
+        fields = ("id", "homework", "name", "max_result")
 
 class ListeningResultSerializer(serializers.ModelSerializer):
     account = serializers.SlugRelatedField(queryset=Account.objects.all(), slug_field="email")
@@ -126,14 +132,14 @@ class ReadingSerializer(serializers.ModelSerializer):
     readinganswers = ReadingAnswerSerializer(many=True)
     class Meta:
         model = Reading
-        fields = ("homework", "name", "text", "max_result", "readinganswers")
+        fields = ("id", "homework", "name", "text", "max_result", "readinganswers")
 
 class ReadingShortSerializer(serializers.ModelSerializer):
     homework = serializers.SlugRelatedField(queryset=HomeWork.objects.all(), slug_field="name")
     # homework = HomeWorkShortSerializer()
     class Meta:
         model = Reading
-        fields = ("homework", "name", "max_result")
+        fields = ("id", "homework", "name", "max_result")
 
 class ReadingResultSerializer(serializers.ModelSerializer):
     account = serializers.SlugRelatedField(queryset=Account.objects.all(), slug_field="email")
@@ -159,4 +165,40 @@ class HomeWorkSerializer(serializers.ModelSerializer):
     readings = ReadingSerializer(many=True)
     class Meta:
         model = HomeWork
-        fields = ("course", "name", "listenings", "readings")
+        fields = ("id", "course", "name", "listenings", "readings")
+
+### HomeWork Listening Reading Create Serializers start ###
+
+class HomeWorkCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HomeWork
+        fields = ("course", "name")
+
+class ListeningCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Listening
+        fields = ("homework", "name", "audio", "max_result")
+
+class ListeningQuestionCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ListeningQuestion
+        fields = ("listening", "question", "value")
+
+class ListeningQuestionAnswerCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ListeningQuestionAnswer
+        fields = ("question", "answer", "is_true")
+
+class ReadingCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reading
+        fields = ("homework", "name", "text", "max_result")
+
+class ReadingAnswerCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReadingAnswer
+        fields = ("reading", "answer")
+
+
+
+### HomeWork Listening Reading Create Serializers end ###
