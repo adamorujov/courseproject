@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.serializers import SlugRelatedField
 from rest_framework.exceptions import ValidationError
 from django.contrib.auth.password_validation import validate_password
 from account.models import (
@@ -169,10 +170,20 @@ class HomeWorkSerializer(serializers.ModelSerializer):
 
 ### HomeWork Listening Reading Create Serializers start ###
 
+class HomeWorkSlugRelatedField(serializers.SlugRelatedField):
+    def get_queryset(self):
+        queryset = Course.objects.all()
+        request = self.context.get('request', None)
+        if not request.user.is_superuser:
+            queryset = queryset.filter(accounts=request.user)
+        return queryset
+
 class HomeWorkCreateSerializer(serializers.ModelSerializer):
+    course = HomeWorkSlugRelatedField(slug_field="name")
     class Meta:
         model = HomeWork
         fields = ("course", "name")
+
 
 class ListeningCreateSerializer(serializers.ModelSerializer):
     class Meta:
