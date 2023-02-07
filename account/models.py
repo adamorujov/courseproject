@@ -138,7 +138,7 @@ class ListeningQuestionAnswer(models.Model):
 
 class ListeningResult(models.Model):
     # homeworkresult = models.ForeignKey(HomeWorkResult, on_delete=models.CASCADE, related_name="homeworklisteningresults")
-    account = models.OneToOneField(Account, on_delete=models.CASCADE, related_name="accountlisteningresult")
+    account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name="accountlisteningresults")
     listening = models.ForeignKey(Listening, on_delete=models.CASCADE, related_name="listeningresults")
     result = models.IntegerField(default=0)
     date = models.DateField()
@@ -175,7 +175,7 @@ class ReadingAnswer(models.Model):
 
 class ReadingResult(models.Model):
     # homeworkresult = models.ForeignKey(HomeWorkResult, on_delete=models.CASCADE, related_name="homeworkreadingresults")
-    account = models.OneToOneField(Account, on_delete=models.CASCADE, related_name="accountreadingresult")
+    account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name="accountreadingresults")
     reading = models.ForeignKey(Reading, on_delete=models.CASCADE, related_name="readingresults")
     result = models.IntegerField(default=0)
     date = models.DateField()

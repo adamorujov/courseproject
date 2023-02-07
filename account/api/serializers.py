@@ -210,6 +210,16 @@ class ReadingAnswerCreateSerializer(serializers.ModelSerializer):
         model = ReadingAnswer
         fields = ("reading", "answer")
 
+class ListeningResultCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ListeningResult
+        fields = ("account", "listening", "result", "date")
+
+class ReadingResultCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReadingResult
+        fields = ("account", "reading", "result", "date")
+
 
 
 ### HomeWork Listening Reading Create Serializers end ###

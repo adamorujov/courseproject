@@ -26,5 +26,7 @@ urlpatterns = [
     path('listeningquestion-create/', views.ListeningQuestionCreateAPIView.as_view(), name="listeningquestion-create"),
     path('listeningquestionanswer-create/', views.ListeningQuestionAnswerCreateAPIView.as_view(), name="listeningquestionanswer-create"),
     path('reading-create/', views.ReadingCreateAPIView.as_view(), name="reading-create"),
-    path('readingquestionanswer-create/', views.ReadingAnswerCreateAPIView.as_view(), name="readanswer-create"),
+    path('readinganswer-create/', views.ReadingAnswerCreateAPIView.as_view(), name="readinganswer-create"),
+    path('listeningresult-create/', views.ListeningResultCreateAPIView.as_view(), name="listeningresult-create"),
+    path('readingresult-create/', views.ReadingResultCreateAPIView.as_view(), name="readingresult-create"),
 ]

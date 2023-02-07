@@ -11,11 +11,12 @@ UnitDestroySerializer, UnitCreateUpdateSerializer,
 HomeWorkSerializer, ListeningSerializer, ListeningResultSerializer, ReadingResultSerializer,
 HomeWorkCreateSerializer, ListeningCreateSerializer, ListeningQuestionCreateSerializer, 
 ListeningQuestionAnswerCreateSerializer, ReadingCreateSerializer, ReadingAnswerCreateSerializer,
+ListeningResultCreateSerializer, ReadingResultCreateSerializer
 )
 
 from rest_framework.response import Response
 
-from account.api.permissions import IsOwner, IsTeacher, IsTeacherUser
+from account.api.permissions import IsOwner, IsTeacher, IsTeacherUser, IsStudentUser
 from account.models import (
     Account, Course, Unit,
     HomeWork, Listening, ListeningResult, ListeningQuestion, ListeningQuestionAnswer,
@@ -162,3 +163,13 @@ class ReadingAnswerCreateAPIView(CreateAPIView):
     queryset = ReadingAnswer.objects.all()
     serializer_class = ReadingAnswerCreateSerializer
     permission_classes = (IsTeacherUser,)
+
+class ListeningResultCreateAPIView(CreateAPIView):
+    queryset = ListeningResult.objects.all()
+    serializer_class = ListeningResultCreateSerializer
+    permission_classes = (IsStudentUser,)
+
+class ReadingResultCreateAPIView(CreateAPIView):
+    queryset = ReadingResult.objects.all()
+    serializer_class = ReadingResultCreateSerializer
+    permission_classes = (IsStudentUser,)
