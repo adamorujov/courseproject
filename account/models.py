@@ -141,7 +141,7 @@ class ListeningResult(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name="accountlisteningresults")
     listening = models.ForeignKey(Listening, on_delete=models.CASCADE, related_name="listeningresults")
     result = models.IntegerField(default=0)
-    date = models.DateField()
+    date = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.account.email
@@ -168,6 +168,7 @@ class Reading(models.Model):
 class ReadingAnswer(models.Model):
     reading = models.ForeignKey(Reading, on_delete=models.CASCADE, related_name="readinganswers")
     answer = models.CharField(max_length=256)
+    value = models.IntegerField(default=0)
 
     def __str__(self):
         return self.answer
@@ -178,7 +179,7 @@ class ReadingResult(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name="accountreadingresults")
     reading = models.ForeignKey(Reading, on_delete=models.CASCADE, related_name="readingresults")
     result = models.IntegerField(default=0)
-    date = models.DateField()
+    date = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.account.email

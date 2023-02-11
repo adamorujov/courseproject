@@ -208,7 +208,7 @@ class ReadingCreateSerializer(serializers.ModelSerializer):
 class ReadingAnswerCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReadingAnswer
-        fields = ("reading", "answer")
+        fields = ("reading", "answer", "value")
 
 class ListeningResultCreateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -221,5 +221,38 @@ class ReadingResultCreateSerializer(serializers.ModelSerializer):
         fields = ("account", "reading", "result", "date")
 
 
-
 ### HomeWork Listening Reading Create Serializers end ###
+
+### HomeWork Listening Reading Update Delete Serializers start ###
+
+class HomeWorkUpdateDestroySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HomeWork
+        fields = "__all__"
+
+class ListeningUpdateDestroySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Listening
+        fields = "__all__"
+
+class ListeningQuestionUpdateDestroySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ListeningQuestion
+        fields = "__all__"
+
+class ListeningQuestionAnswerUpdateDestroySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ListeningQuestionAnswer
+        fields = "__all__"
+
+class ReadingUpdateDestroySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reading
+        fields = "__all__"
+
+class ReadingAnswerUpdateDestroySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReadingAnswer
+        fields = "__all__"
+
+### HomeWork Listening Reading Update Delete Serializers end ###

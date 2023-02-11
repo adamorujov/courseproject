@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.generics import (ListAPIView, CreateAPIView, RetrieveAPIView, UpdateAPIView,
-RetrieveUpdateAPIView, DestroyAPIView,
+RetrieveUpdateAPIView, DestroyAPIView, RetrieveUpdateDestroyAPIView,
 get_object_or_404
 )
 
@@ -11,7 +11,9 @@ UnitDestroySerializer, UnitCreateUpdateSerializer,
 HomeWorkSerializer, ListeningSerializer, ListeningResultSerializer, ReadingResultSerializer,
 HomeWorkCreateSerializer, ListeningCreateSerializer, ListeningQuestionCreateSerializer, 
 ListeningQuestionAnswerCreateSerializer, ReadingCreateSerializer, ReadingAnswerCreateSerializer,
-ListeningResultCreateSerializer, ReadingResultCreateSerializer
+ListeningResultCreateSerializer, ReadingResultCreateSerializer, HomeWorkUpdateDestroySerializer,
+ListeningUpdateDestroySerializer, ListeningQuestionUpdateDestroySerializer, ListeningQuestionAnswerUpdateDestroySerializer,
+ReadingUpdateDestroySerializer, ReadingAnswerUpdateDestroySerializer,
 )
 
 from rest_framework.response import Response
@@ -173,3 +175,39 @@ class ReadingResultCreateAPIView(CreateAPIView):
     queryset = ReadingResult.objects.all()
     serializer_class = ReadingResultCreateSerializer
     permission_classes = (IsStudentUser,)
+
+class HomeWorkRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = HomeWork.objects.all()
+    lookup_field = "id"
+    serializer_class = HomeWorkUpdateDestroySerializer
+    permission_classes = (IsTeacher,)
+
+class ListeningRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = Listening.objects.all()
+    lookup_field = "id"
+    serializer_class = ListeningUpdateDestroySerializer
+    permission_classes = (IsTeacherUser,)
+
+class ListeningQuestionRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = ListeningQuestion.objects.all()
+    lookup_field = "id"
+    serializer_class = ListeningQuestionUpdateDestroySerializer
+    permission_classes = (IsTeacherUser,)
+
+class ListeningQuestionAnswerRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = ListeningQuestionAnswer.objects.all()
+    lookup_field = "id"
+    serializer_class = ListeningQuestionAnswerUpdateDestroySerializer
+    permission_classes = (IsTeacherUser,)
+
+class ReadingRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = Reading.objects.all()
+    lookup_field = "id"
+    serializer_class = ReadingUpdateDestroySerializer
+    permission_classes = (IsTeacherUser,)
+
+class ReadingAnswerRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = ReadingAnswer.objects.all()
+    lookup_field = "id"
+    serializer_class = ReadingAnswerUpdateDestroySerializer
+    permission_classes = (IsTeacherUser,)

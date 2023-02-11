@@ -29,4 +29,10 @@ urlpatterns = [
     path('readinganswer-create/', views.ReadingAnswerCreateAPIView.as_view(), name="readinganswer-create"),
     path('listeningresult-create/', views.ListeningResultCreateAPIView.as_view(), name="listeningresult-create"),
     path('readingresult-create/', views.ReadingResultCreateAPIView.as_view(), name="readingresult-create"),
+    path('homework-update-delete/<int:id>/', views.HomeWorkRetrieveUpdateDestroyAPIView.as_view(), name="homework-update-delete"),
+    path('listening-update-delete/<int:id>/', views.ListeningRetrieveUpdateDestroyAPIView.as_view(), name="listening-update-delete"),
+    path('listeningquestion-update-delete/<int:id>/', views.ListeningQuestionRetrieveUpdateDestroyAPIView.as_view(), name="listeningquestion-update-delete"),
+    path('listeningquestionanswer-update-delete/<int:id>/', views.ListeningQuestionAnswerRetrieveUpdateDestroyAPIView.as_view(), name="listeningquestionanswer-update-delete"),
+    path('reading-update-delete/<int:id>/', views.ReadingRetrieveUpdateDestroyAPIView.as_view(), name="reading-update-delete"),
+    path('readinganswer-update-delete/<int:id>/', views.ReadingAnswerRetrieveUpdateDestroyAPIView.as_view(), name="readinganswer-update-delete"),
 ]
