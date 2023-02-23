@@ -65,7 +65,7 @@ class UnitDestroySerializer(serializers.ModelSerializer):
             raise ValidationError("You cannot delete a unit for this course.")
 
         return attrs
-    
+
 
 class CourseListSerializer(serializers.ModelSerializer):
     accounts = AccountSerializer(many=True)
@@ -213,7 +213,7 @@ class ReadingAnswerCreateSerializer(serializers.ModelSerializer):
 class ListeningResultCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = ListeningResult
-        fields = ("account", "listening", "result", "date")
+        fields = ("id", "account", "listening", "result", "date")
 
 class ReadingResultCreateSerializer(serializers.ModelSerializer):
     class Meta:

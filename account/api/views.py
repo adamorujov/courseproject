@@ -5,11 +5,11 @@ get_object_or_404
 )
 
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from account.api.serializers import (AccountSerializer, RegisterSerializer, 
+from account.api.serializers import (AccountSerializer, RegisterSerializer,
 CourseListSerializer, CourseCreateUpdateDestroySerializer,
 UnitDestroySerializer, UnitCreateUpdateSerializer,
 HomeWorkSerializer, ListeningSerializer, ListeningResultSerializer, ReadingResultSerializer,
-HomeWorkCreateSerializer, ListeningCreateSerializer, ListeningQuestionCreateSerializer, 
+HomeWorkCreateSerializer, ListeningCreateSerializer, ListeningQuestionCreateSerializer,
 ListeningQuestionAnswerCreateSerializer, ReadingCreateSerializer, ReadingAnswerCreateSerializer,
 ListeningResultCreateSerializer, ReadingResultCreateSerializer, HomeWorkUpdateDestroySerializer,
 ListeningUpdateDestroySerializer, ListeningQuestionUpdateDestroySerializer, ListeningQuestionAnswerUpdateDestroySerializer,
@@ -17,6 +17,7 @@ ReadingUpdateDestroySerializer, ReadingAnswerUpdateDestroySerializer,
 )
 
 from rest_framework.response import Response
+from rest_framework.parsers import MultiPartParser, FormParser
 
 from account.api.permissions import IsOwner, IsTeacher, IsTeacherUser, IsStudentUser
 from account.models import (
@@ -33,7 +34,7 @@ class AccountRetrieveAPIView(RetrieveAPIView):
     lookup_field = "email"
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
-    permission_classes = (IsAuthenticated, IsOwner) 
+    permission_classes = (IsAuthenticated, IsOwner)
 
 class RegisterAPIView(CreateAPIView):
     queryset = Account.objects.all()
@@ -142,6 +143,7 @@ class HomeWorkCreateAPIView(CreateAPIView):
     permission_classes = (IsTeacherUser,)
 
 class ListeningCreateAPIView(CreateAPIView):
+    parser_classes = (MultiPartParser, FormParser)
     queryset = Listening.objects.all()
     serializer_class = ListeningCreateSerializer
     permission_classes = (IsTeacherUser,)
