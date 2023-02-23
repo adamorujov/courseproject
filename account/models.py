@@ -184,3 +184,21 @@ class ReadingResult(models.Model):
     def __str__(self):
         return self.account.email
     
+
+class Certificate(models.Model):
+    account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name="account_certificates")
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="course_certificates")
+    certificate = models.FileField(upload_to="certificates/")
+    score = models.FloatField(default=0)
+
+    def __str__(self):
+        return self.account.username + "|" + self.course.name
+
+class Resource(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="resources")
+    name = models.CharField(max_length=528)
+    resource = models.FileField(upload_to="resources/")
+    status = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name 
