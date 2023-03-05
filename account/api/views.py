@@ -14,6 +14,7 @@ ListeningQuestionAnswerCreateSerializer, ReadingCreateSerializer, ReadingAnswerC
 ListeningResultCreateSerializer, ReadingResultCreateSerializer, HomeWorkUpdateDestroySerializer,
 ListeningUpdateDestroySerializer, ListeningQuestionUpdateDestroySerializer, ListeningQuestionAnswerUpdateDestroySerializer,
 ReadingUpdateDestroySerializer, ReadingAnswerUpdateDestroySerializer,
+CertificateListSerializer, ResourceListSerializer
 )
 
 from rest_framework.response import Response
@@ -23,7 +24,7 @@ from account.api.permissions import IsOwner, IsTeacher, IsTeacherUser, IsStudent
 from account.models import (
     Account, Course, Unit,
     HomeWork, Listening, ListeningResult, ListeningQuestion, ListeningQuestionAnswer,
-    Reading, ReadingAnswer, ReadingResult,
+    Reading, ReadingAnswer, ReadingResult, Certificate, Resource
     )
 
 class AccountListAPIView(ListAPIView):
@@ -213,3 +214,26 @@ class ReadingAnswerRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     lookup_field = "id"
     serializer_class = ReadingAnswerUpdateDestroySerializer
     permission_classes = (IsTeacherUser,)
+
+
+class CertificateListAPIView(ListAPIView):
+    queryset = Certificate.objects.all()
+    serializer_class = CertificateListSerializer
+    permission_classes = (IsAdminUser,)
+
+class ResourceListAPIView(ListAPIView):
+    queryset = Resource.objects.all()
+    serializer_class = ResourceListSerializer
+    permission_classes = (IsAdminUser,)
+
+class AccountCertificateListAPIView(ListAPIView):
+    def get_queryset(self):
+        return Certificate.objects.filter(account=self.request.user)
+
+    serializer_class = CertificateListSerializer
+
+class AccountResourceListAPIView(ListAPIView):
+    def get_queryset(self):
+        return Resource.objects.filter(course__accounts=self.request.user)
+
+    serializer_class = ResourceListSerializer

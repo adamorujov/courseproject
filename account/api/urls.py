@@ -35,4 +35,8 @@ urlpatterns = [
     path('listeningquestionanswer-update-delete/<int:id>/', views.ListeningQuestionAnswerRetrieveUpdateDestroyAPIView.as_view(), name="listeningquestionanswer-update-delete"),
     path('reading-update-delete/<int:id>/', views.ReadingRetrieveUpdateDestroyAPIView.as_view(), name="reading-update-delete"),
     path('readinganswer-update-delete/<int:id>/', views.ReadingAnswerRetrieveUpdateDestroyAPIView.as_view(), name="readinganswer-update-delete"),
+    path('certificates/', views.CertificateListAPIView.as_view(), name="certificates"),
+    path('resources/', views.ResourceListAPIView.as_view(), name="resources"),
+    path('mycertificates/', views.AccountCertificateListAPIView.as_view(), name="mycertificates"),
+    path('myresources/', views.AccountResourceListAPIView.as_view(), name="myresources"),
 ]

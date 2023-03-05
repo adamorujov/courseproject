@@ -6,6 +6,7 @@ from account.models import (
     Account, Course, Unit,
     HomeWork, Listening, ListeningQuestion, ListeningQuestionAnswer, ListeningResult,
     Reading, ReadingAnswer, ReadingResult,
+    Certificate, Resource
     )
 
 class AccountSerializer(serializers.ModelSerializer):
@@ -256,3 +257,17 @@ class ReadingAnswerUpdateDestroySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 ### HomeWork Listening Reading Update Delete Serializers end ###
+
+### Certificate Resource Serializers start ###
+
+class CertificateListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Certificate
+        fields = "__all__"
+
+class ResourceListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Resource
+        fields = "__all__"
+
+### Certificate Resource Serializers end ###
