@@ -39,4 +39,8 @@ urlpatterns = [
     path('resources/', views.ResourceListAPIView.as_view(), name="resources"),
     path('mycertificates/', views.AccountCertificateListAPIView.as_view(), name="mycertificates"),
     path('myresources/', views.AccountResourceListAPIView.as_view(), name="myresources"),
+    path('certificate-create/', views.CertificateCreateAPIView.as_view(), name="certificate-create"),
+    path('certificate-update-delete/<int:id>/', views.CertificateRetrieveUpdateDestroyAPIView.as_view(), name="certificate-update-delete"),
+    path('resource-create/', views.ResourceCreateAPIView.as_view(), name="resource-create"),
+    path('resource-update-delete/<int:id>/', views.ResourceRetrieveUpdateDestroyAPIView.as_view(), name="resource-update-delete"),
 ]

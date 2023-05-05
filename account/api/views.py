@@ -237,3 +237,25 @@ class AccountResourceListAPIView(ListAPIView):
         return Resource.objects.filter(course__accounts=self.request.user)
 
     serializer_class = ResourceListSerializer
+
+class CertificateCreateAPIView(CreateAPIView):
+    queryset = Certificate.objects.all()
+    serializer_class = CertificateListSerializer
+    permission_classes = (IsAdminUser,)
+
+class ResourceCreateAPIView(CreateAPIView):
+    queryset = Resource.objects.all()
+    serializer_class = ResourceListSerializer
+    permission_classes = (IsTeacher,)
+
+class CertificateRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = Certificate.objects.all()
+    serializer_class = CertificateListSerializer
+    permission_classes = (IsAdminUser,)
+    lookup_field = "id"
+
+class ResourceRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = Resource.objects.all()
+    serializer_class = ResourceListSerializer
+    permission_classes = (IsTeacher,)
+    lookup_field = "id"
