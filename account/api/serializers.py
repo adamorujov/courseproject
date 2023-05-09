@@ -227,6 +227,7 @@ class ReadingResultCreateSerializer(serializers.ModelSerializer):
 ### HomeWork Listening Reading Update Delete Serializers start ###
 
 class HomeWorkUpdateDestroySerializer(serializers.ModelSerializer):
+    course = serializers.SlugRelatedField(queryset=Course.objects.all(), slug_field="name")
     class Meta:
         model = HomeWork
         fields = "__all__"
