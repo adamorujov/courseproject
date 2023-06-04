@@ -92,7 +92,7 @@ class CourseListSerializer(serializers.ModelSerializer):
     units = UnitSerializer(many=True)
     class Meta:
         model = Course
-        fields = ('id', 'accounts', 'name', 'units', 'groups')
+        fields = ('id', 'accounts', 'name', 'units')
 
 
 class CourseCreateUpdateDestroySerializer(serializers.ModelSerializer):
