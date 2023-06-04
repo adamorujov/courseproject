@@ -99,8 +99,10 @@ class HomeWorkListAPIView(ListAPIView):
     serializer_class = HomeWorkSerializer
 
 class AccountHomeWorkListAPIView(ListAPIView):
+    # def get_queryset(self):
+    #     return HomeWork.objects.filter(course__accounts=self.request.user) homework
     def get_queryset(self):
-        return HomeWork.objects.filter(course__accounts=self.request.user)
+        return HomeWork.objects.filter(group__accounts=self.request.user)
     serializer_class = HomeWorkSerializer
     permission_classes = (IsAuthenticated,)
 
