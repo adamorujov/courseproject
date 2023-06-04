@@ -183,7 +183,6 @@ class ReadingResult(models.Model):
 
     def __str__(self):
         return self.account.email
-    
 
 class Certificate(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name="account_certificates")
@@ -202,4 +201,24 @@ class Resource(models.Model):
 
     def __str__(self):
         return self.name 
+
+class CourseGroup(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="course_groups")
+    users = models.ManyToManyField(Account, related_name="group_accounts")
+    name = models.CharField(max_length=256)
+
+    class Meta:
+        verbose_name = "Group"
     
+    def __str__(self):
+        return self.name
+
+class GroupLesson(models.Model):
+    group = models.ForeignKey(CourseGroup, on_delete=models.CASCADE, related_name="group_lessons")
+    name = models.CharField(max_length=256)
+    date = models.DateField(blank=True, null=True)
+    start_time = models.TimeField(blank=True, null=True)
+    end_time = models.TimeField(blank=True, null=True)
+
+class CheckIn(models.Model):
+    pass

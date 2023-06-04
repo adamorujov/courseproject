@@ -262,6 +262,7 @@ class ReadingAnswerUpdateDestroySerializer(serializers.ModelSerializer):
 ### Certificate Resource Serializers start ###
 
 class CertificateListSerializer(serializers.ModelSerializer):
+    course = serializers.SlugRelatedField(queryset=Course.objects.all(), slug_field="name")
     class Meta:
         model = Certificate
         fields = "__all__"
