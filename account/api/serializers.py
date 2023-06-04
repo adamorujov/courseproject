@@ -6,7 +6,8 @@ from account.models import (
     Account, Course, Unit,
     HomeWork, Listening, ListeningQuestion, ListeningQuestionAnswer, ListeningResult,
     Reading, ReadingAnswer, ReadingResult,
-    Certificate, Resource
+    Certificate, Resource,
+    CourseGroup, GroupLesson, CheckIn
     )
 
 class AccountSerializer(serializers.ModelSerializer):
@@ -35,6 +36,24 @@ class RegisterSerializer(serializers.ModelSerializer):
         account.set_password(validated_data["password"])
         account.save()
         return account
+    
+### Course Group Serializers start ###
+
+class CourseGroupListSerializer(serializers.ModelSerializer):
+    accounts = AccountSerializer(many=True)
+    course = serializers.SlugRelatedField(queryset=Course.objects.all(), slug_field="name")
+    class Meta:
+        model = CourseGroup
+        fields = "__all__"
+
+class CourseGroupUpdateDestroySerializer(serializers.ModelSerializer):
+    accounts = serializers.SlugRelatedField(queryset=Account.objects.all(), slug_field="email", many=True)
+    course = serializers.SlugRelatedField(queryset=Course.objects.all(), slug_field="name")
+    class Meta:
+        model = CourseGroup
+        fields = "__all__"
+
+### Course Group Serializers end ###
 
 ### Course and Unit Serializers start ###
 
@@ -71,9 +90,10 @@ class UnitDestroySerializer(serializers.ModelSerializer):
 class CourseListSerializer(serializers.ModelSerializer):
     accounts = AccountSerializer(many=True)
     units = UnitSerializer(many=True)
+    groups = CourseGroupListSerializer(many=True)
     class Meta:
         model = Course
-        fields = ('id', 'accounts', 'name', 'units')
+        fields = ('id', 'accounts', 'name', 'units', 'groups')
 
 
 class CourseCreateUpdateDestroySerializer(serializers.ModelSerializer):
@@ -162,28 +182,30 @@ class ReadingResultSerializer(serializers.ModelSerializer):
 
 
 class HomeWorkSerializer(serializers.ModelSerializer):
-    course = serializers.SlugRelatedField(queryset=Course.objects.all(), slug_field="name")
+    # course = serializers.SlugRelatedField(queryset=Course.objects.all(), slug_field="name") homework
+    group = serializers.SlugRelatedField(queryset=CourseGroup.objects.all(), slug_field="name")
     listenings = ListeningSerializer(many=True)
     readings = ReadingSerializer(many=True)
     class Meta:
         model = HomeWork
-        fields = ("id", "course", "name", "listenings", "readings")
+        fields = ("id", "group", "name", "listenings", "readings")
 
 ### HomeWork Listening Reading Create Serializers start ###
 
 class HomeWorkSlugRelatedField(serializers.SlugRelatedField):
     def get_queryset(self):
-        queryset = Course.objects.all()
+        # queryset = Course.objects.all() homework
+        queryset = CourseGroup.objects.all()
         request = self.context.get('request', None)
         if not request.user.is_superuser:
             queryset = queryset.filter(accounts=request.user)
         return queryset
 
 class HomeWorkCreateSerializer(serializers.ModelSerializer):
-    course = HomeWorkSlugRelatedField(slug_field="name")
+    group = HomeWorkSlugRelatedField(slug_field="name")
     class Meta:
         model = HomeWork
-        fields = ("course", "name")
+        fields = ("group", "name")
 
 
 class ListeningCreateSerializer(serializers.ModelSerializer):
@@ -227,7 +249,8 @@ class ReadingResultCreateSerializer(serializers.ModelSerializer):
 ### HomeWork Listening Reading Update Delete Serializers start ###
 
 class HomeWorkUpdateDestroySerializer(serializers.ModelSerializer):
-    course = serializers.SlugRelatedField(queryset=Course.objects.all(), slug_field="name")
+    # course = serializers.SlugRelatedField(queryset=Course.objects.all(), slug_field="name") homework
+    group = serializers.SlugRelatedField(queryset=CourseGroup.objects.all(), slug_field="name")
     class Meta:
         model = HomeWork
         fields = "__all__"

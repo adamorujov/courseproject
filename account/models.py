@@ -97,10 +97,22 @@ class Unit(models.Model):
 
     def __str__(self):
         return self.name
+    
+class CourseGroup(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="course_groups")
+    accounts = models.ManyToManyField(Account, related_name="group_accounts")
+    name = models.CharField(max_length=256)
+
+    class Meta:
+        verbose_name = "Group"
+    
+    def __str__(self):
+        return self.name
 
 
 class HomeWork(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="homeworks")
+    # course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="homeworks") homework
+    group = models.ForeignKey(CourseGroup, on_delete=models.CASCADE, related_name="homeworks")
     name = models.CharField(max_length=256)
 
     def __str__(self):
@@ -202,17 +214,6 @@ class Resource(models.Model):
     def __str__(self):
         return self.name 
 
-class CourseGroup(models.Model):
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="course_groups")
-    users = models.ManyToManyField(Account, related_name="group_accounts")
-    name = models.CharField(max_length=256)
-
-    class Meta:
-        verbose_name = "Group"
-    
-    def __str__(self):
-        return self.name
-
 class GroupLesson(models.Model):
     group = models.ForeignKey(CourseGroup, on_delete=models.CASCADE, related_name="group_lessons")
     name = models.CharField(max_length=256)
@@ -220,5 +221,24 @@ class GroupLesson(models.Model):
     start_time = models.TimeField(blank=True, null=True)
     end_time = models.TimeField(blank=True, null=True)
 
+    class Meta:
+        verbose_name = "Group Lesson"
+        verbose_name_plural = "Group Lessons"
+
+    def __str__(self):
+        return self.name
+
 class CheckIn(models.Model):
-    pass
+    grouplesson = models.ForeignKey(GroupLesson, on_delete=models.CASCADE, related_name="grouplesson_checkins")
+    account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name="account_checkins")
+
+    class Meta:
+        verbose_name = "Check-In"
+        verbose_name_plural = "Check-In"
+
+    def __str__(self):
+        return self.grouplesson.name + " - " + self.account.first_name + " " + self.account.last_name
+
+
+
+

@@ -43,4 +43,9 @@ urlpatterns = [
     path('certificate-update-delete/<int:id>/', views.CertificateRetrieveUpdateDestroyAPIView.as_view(), name="certificate-update-delete"),
     path('resource-create/', views.ResourceCreateAPIView.as_view(), name="resource-create"),
     path('resource-update-delete/<int:id>/', views.ResourceRetrieveUpdateDestroyAPIView.as_view(), name="resource-update-delete"),
+    path('groups/', views.CourseGroupListAPIView.as_view(), name="groups"),
+    path('coursegroups/<int:id>', views.CourseCourseGroupListAPIView.as_view(), name="coursegroups"),
+    path('mygroups/', views.AccountCourseGroupListAPIView.as_view(), name="mygroups"),
+    path('group-create/', views.CourseGroupCreateAPIView.as_view(), name="group-create"),
+    path('group-update-delete/<int:id>', views.CourseGroupUpdateDestroyAPIView.as_view(), name="group-update-delete"),
 ]

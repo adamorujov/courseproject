@@ -14,7 +14,8 @@ ListeningQuestionAnswerCreateSerializer, ReadingCreateSerializer, ReadingAnswerC
 ListeningResultCreateSerializer, ReadingResultCreateSerializer, HomeWorkUpdateDestroySerializer,
 ListeningUpdateDestroySerializer, ListeningQuestionUpdateDestroySerializer, ListeningQuestionAnswerUpdateDestroySerializer,
 ReadingUpdateDestroySerializer, ReadingAnswerUpdateDestroySerializer,
-CertificateListSerializer, ResourceListSerializer
+CertificateListSerializer, ResourceListSerializer,
+CourseGroupListSerializer, CourseGroupUpdateDestroySerializer
 )
 
 from rest_framework.response import Response
@@ -24,7 +25,8 @@ from account.api.permissions import IsOwner, IsTeacher, IsTeacherUser, IsStudent
 from account.models import (
     Account, Course, Unit,
     HomeWork, Listening, ListeningResult, ListeningQuestion, ListeningQuestionAnswer,
-    Reading, ReadingAnswer, ReadingResult, Certificate, Resource
+    Reading, ReadingAnswer, ReadingResult, Certificate, Resource,
+    CourseGroup, GroupLesson, CheckIn
     )
 
 class AccountListAPIView(ListAPIView):
@@ -259,3 +261,39 @@ class ResourceRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = ResourceListSerializer
     permission_classes = (IsTeacher,)
     lookup_field = "id"
+
+
+class CourseGroupListAPIView(ListAPIView):
+    queryset = CourseGroup.objects.all()
+    serializer_class = CourseGroupListSerializer
+    permission_classes = (IsAdminUser,)
+    
+class AccountCourseGroupListAPIView(ListAPIView):
+    def get_queryset(self):
+        return CourseGroup.objects.filter(
+            accounts = self.request.user
+        )
+    serializer_class = CourseGroupListSerializer
+    permission_classes = (IsAuthenticated,)
+
+class CourseCourseGroupListAPIView(ListAPIView):
+    def get_queryset(self, id):
+        course = Course.objects.get(id=id)
+        return CourseGroup.objects.filter(
+            course = course
+        )
+    serializer_class = CourseGroupListSerializer
+    permission_classes = (IsAdminUser,)
+    
+class CourseGroupCreateAPIView(CreateAPIView):
+    queryset = CourseGroup.objects.all()
+    serializer_class = CourseGroupUpdateDestroySerializer
+    permission_classes = (IsAdminUser,)
+
+class CourseGroupUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    lookup_field = "pk"
+    queryset = CourseGroup.objects.all()
+    serializer_class = CourseGroupUpdateDestroySerializer
+    permission_classes = (IsAdminUser,)
+
+
