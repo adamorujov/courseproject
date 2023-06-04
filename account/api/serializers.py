@@ -90,7 +90,6 @@ class UnitDestroySerializer(serializers.ModelSerializer):
 class CourseListSerializer(serializers.ModelSerializer):
     accounts = AccountSerializer(many=True)
     units = UnitSerializer(many=True)
-    groups = CourseGroupListSerializer(many=True)
     class Meta:
         model = Course
         fields = ('id', 'accounts', 'name', 'units', 'groups')
